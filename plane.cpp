@@ -234,3 +234,4 @@ QString plane::get_temp(std::string temp) {
 
 	return QString::fromStdString(temp) + QString(QChar(0xb0));
 }
+
