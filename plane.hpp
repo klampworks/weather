@@ -1,9 +1,11 @@
+#ifndef PLANE_HPP
+#define PLANE_HPP
 #include <QPainter>
 #include <iostream>
 #include <QFile>
 
-#include "weather_day.hpp"
-#include "parser.hpp"
+//#include "weather_day.hpp"
+//#include "parser.hpp"
 #include <vector>
 #include <QVBoxLayout>
 #include <sstream>
@@ -12,7 +14,7 @@
 class plane : public QWidget { 
 
 	public:
-	plane(QWidget *parent) : QWidget(parent);
+	plane(QWidget *parent = NULL);
 	void paintEvent(QPaintEvent *e);
 	void drawLines(QPainter *qp);
 	void get_data();
@@ -21,4 +23,8 @@ class plane : public QWidget {
 	QDate get_qdate(std::string date);
 	QString get_day(QDate date);
 	QString get_temp(std::string temp);
-}
+
+	int corner;
+	QColor colour;
+};
+#endif
