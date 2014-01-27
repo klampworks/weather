@@ -1,19 +1,22 @@
 #include <QPainter>
 #include <iostream>
 #include <QFile>
+#include <QDate>
 
-#include "weather_day.hpp"
-#include "parser.hpp"
+//#include "weather_day.hpp"
+//#include "parser.hpp"
 #include <vector>
 #include <QVBoxLayout>
 #include <sstream>
 #include <QDesktopWidget>
+#include "plane.hpp"
+#include <QApplication>
 
 plane::plane(QWidget *parent) : QWidget(parent) {
 
 	// we probably wont need these...
-	curly = new Curly();
-	resizer = NULL;
+//	curly = new Curly();
+//	resizer = NULL;
 	//
 	
 	setAttribute(Qt::WA_TranslucentBackground);
@@ -85,6 +88,7 @@ qp->drawRoundedRect(0,0, this->width(), this->height(), this->corner, this->corn
 
 void plane::get_data() {
 
+#if 0
         std::vector<Weather_day> items;
         //std::string filename("json_body_backup");
 	std::string filename = curly->grab_to_file("http://api.worldweatheronline.com/free/v1/weather.ashx?q=DH1+3LE+&format=json&num_of_days=5&key=scrubbed");
@@ -124,10 +128,11 @@ void plane::get_data() {
         }
 
 	setLayout(vbox);
+#endif
 }
 
 QPixmap * plane::get_icon(std::string url) {
-
+#if 0
 	unsigned int pos = url.find_last_of('/');
 	std::string path = url.substr(pos+1);
 
@@ -137,11 +142,11 @@ QPixmap * plane::get_icon(std::string url) {
 		grab_icon(url);
 	
 	return new QPixmap(QString::fromStdString(path));
-
+#endif
 }
 
 void plane::grab_icon(std::string url) {
-
+#if 0
 	if (resizer == NULL) 
 		resizer = new Resize();
 	
@@ -150,12 +155,12 @@ void plane::grab_icon(std::string url) {
 
 	std::string filename = curly->grab_to_file(url);
 	resizer->resize(filename);
-
+#endif
 }
 
 
 QDate plane::get_qdate(std::string date) {
-
+#if 0
         std::stringstream ss(date);
 	std::vector<int> parts;
         std::string tmp;
@@ -175,11 +180,11 @@ QDate plane::get_qdate(std::string date) {
 
  
 	return QDate(parts[0], parts[1], parts[2]);
-
+#endif
 }
 
 QString plane::get_day(QDate date) {
-
+#if 0
 	int day = date.dayOfWeek();
 
 	switch(day) {
@@ -221,11 +226,11 @@ QString plane::get_day(QDate date) {
 
 
 	}
-
+#endif
 }
 
 QString plane::get_temp(std::string temp) {
-
+#if 0
 	if (temp.length() == 1) {
 
 		temp = " " + temp;
@@ -233,5 +238,6 @@ QString plane::get_temp(std::string temp) {
 	}
 
 	return QString::fromStdString(temp) + QString(QChar(0xb0));
+	#endif
 }
 
