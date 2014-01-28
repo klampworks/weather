@@ -20,6 +20,17 @@ void print(boost::property_tree::ptree const& pt)
     }
 }
 
+void parse_weather_day(const ptree &pt)
+{
+	for (const auto &v: pt) {
+		//std::cout << v.first.data() << std::endl;
+		if (v.first.data() == std::string("tempMaxC")) {
+			std::cout << v.second.data() << std::endl;
+		}
+	}
+
+}
+
 int main()
 {
 	std::ifstream ifs;
@@ -37,29 +48,43 @@ int main()
 
 	//print(pt);
 	auto a = pt.get_child("data.current_condition..weatherDesc..");
-	std::cout  << a.begin()->second.data() << std::endl;
+	//std::cout  << a.begin()->second.data() << std::endl;
+
+	a = pt.get_child("data.current_condition..weatherIconUrl..");
+	//std::cout  << a.begin()->second.data() << std::endl;
 
 	/* Yes the two dots at the end are fucking important. */
-	for (ptree::value_type &v: pt.get_child("data.current_condition..")) {
+	for (ptree::value_type &v: pt.get_child("data.weather.")) {
 
+		parse_weather_day(v.second);
+		
+#if 0
 		/* TODO It's late and I don't give a shit about
 		   learning this retarded API.*/
 		if (v.first.data() == std::string("temp_C")) {
 			std::cout << v.second.data() << std::endl;
 		}
 
+/*
 		if (v.first.data() == std::string("weatherDesc")) {
-
-			
-			std::cout << v.second.get_child(".value").begin()->first.data() << std::endl;
-
+			std::cout << 
+				v.second.get_child(".value").begin()->first.data() 
+				<< std::endl;
 		}
+		if (v.first.data() == std::string("weatherIconUrl")) {
+			std::cout << 
+				v.second.get_child(".value").begin()->first.data() 
+				<< std::endl;
+		}
+		*/
 
-			std::cout << v.first.data() << std::endl;
+		for (const auto &b: v.second) {
+			std::cout << b.first.data() << std::endl;
+		}
 
 
 //weatherIconUrl
-
+#endif
 
 	}
 
