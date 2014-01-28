@@ -20,12 +20,39 @@ void print(boost::property_tree::ptree const& pt)
     }
 }
 
+/* Stupid JSON formatting? */
+std::string get_value(const ptree::value_type &v)
+{
+	return std::string(v.second.get_child(".value").begin()->first.data()); 
+}
+
 void parse_weather_day(const ptree &pt)
 {
 	for (const auto &v: pt) {
-		//std::cout << v.first.data() << std::endl;
-		if (v.first.data() == std::string("tempMaxC")) {
+
+		if (v.first.data() == std::string("tempMaxC")
+			|| v.first.data() == std::string("temp_C")) {
+
 			std::cout << v.second.data() << std::endl;
+		} else if (v.first.data() == std::string("weatherDesc")) {
+			print(v.second);
+			std::cout << v.first.data() << std::endl;;
+			std::cout <<
+				v.second.begin()->second.begin()->second.data()
+			<< std::endl;
+
+			for (const auto &a: v.second) {
+			
+			std::cout <<
+			//v.second.get_child(".value").begin()->second.data() 
+		//	v.second.begin()->first.data()
+			a.first.data()
+			<< std::endl;
+
+			}
+			//std::cout << v.second.begin()->second.data() << std::endl;
+		} else if (v.first.data() == std::string("weatherIconUrl")) {
+			//std::cout << get_value(v) << std::endl;
 		}
 	}
 
@@ -47,10 +74,12 @@ int main()
 	read_json(ss, pt);
 
 	//print(pt);
-	auto a = pt.get_child("data.current_condition..weatherDesc..");
+	//auto a = pt.get_child("data.current_condition..weatherDesc..");
 	//std::cout  << a.begin()->second.data() << std::endl;
 
-	a = pt.get_child("data.current_condition..weatherIconUrl..");
+	auto a = pt.get_child("data.current_condition.");
+	parse_weather_day(a.begin()->second);
+	//a = pt.get_child("data.current_condition..weatherIconUrl..");
 	//std::cout  << a.begin()->second.data() << std::endl;
 
 	/* Yes the two dots at the end are fucking important. */
