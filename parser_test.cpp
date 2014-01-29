@@ -9,6 +9,7 @@ int main()
 
 	for (const auto &r: res) {
 		std::cout <<
+			"\ndate = " << r.date <<
 			"\ntemp = " << r.temp <<
 			"\ndesc = " << r.desc <<
 			"\nurl  = " << r.url  <<

@@ -38,7 +38,9 @@ weather_day parse_day(const ptree &pt)
 	weather_day ret;
 	for (const auto &v: pt) {
 
-		if (v.first.data() == std::string("tempMaxC")
+		if (v.first.data() == std::string("date")) {
+			ret.date = v.second.data();
+		} else if (v.first.data() == std::string("tempMaxC")
 			|| v.first.data() == std::string("temp_C")) {
 
 			ret.temp = v.second.data();
