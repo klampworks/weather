@@ -32,7 +32,7 @@ std::string get_value(const ptree::value_type &v)
 	return std::string(v.second.begin()->second.begin()->second.data()); 
 }
 
-weather_day parse_weather_day(const ptree &pt)
+weather_day parse_day(const ptree &pt)
 {
 	weather_day ret;
 	for (const auto &v: pt) {
@@ -49,7 +49,26 @@ weather_day parse_weather_day(const ptree &pt)
 		}
 	}
 
-	return ret;
+	return std::move(ret);
+}
+
+std::vector<weather_day> parse_days(std::stringstream &&ss)
+{
+	ptree pt;
+	read_json(ss, pt);
+
+	std::vector<weather_day> ret;
+
+	auto a = pt.get_child("data.current_condition.");
+	auto day = parse_day(a.begin()->second);
+	ret.push_back(std::move(day));
+
+	for (ptree::value_type &v: pt.get_child("data.weather.")) {
+		auto day = parse_day(v.second);
+		ret.push_back(std::move(day));
+	}
+
+	return std::move(ret);
 }
 
 int main()
@@ -62,16 +81,14 @@ int main()
 	while(std::getline(ifs, tmp)) 
 		ss << tmp;
 
-	ptree pt;
-	read_json(ss, pt);
+	auto res = parse_days(std::move(ss));
 
-	auto a = pt.get_child("data.current_condition.");
-	parse_weather_day(a.begin()->second);
-
-	for (ptree::value_type &v: pt.get_child("data.weather.")) {
-
-		parse_weather_day(v.second);
-		
+	for (const auto &r: res) {
+		std::cout <<
+			"\ntemp = " << r.temp <<
+			"\ndesc = " << r.desc <<
+			"\nurl  = " << r.url  <<
+			std::endl;
 	}
 
 	return EXIT_SUCCESS;
