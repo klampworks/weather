@@ -14,5 +14,6 @@ struct weather_day {
 			desc(desc_),
 			url(url_) {}
 	
+	weather_day() {}
 };
 #endif
