@@ -8,6 +8,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += grabber.hpp plane.hpp
-SOURCES += grabber.cpp main.cpp plane.cpp
+HEADERS += grabber.hpp plane.hpp weather_day.hpp parser.hpp
+SOURCES += grabber.cpp main.cpp plane.cpp parser.cpp
 LIBS += -lcurl
+QMAKE_CXXFLAGS += -std=c++11 -g
