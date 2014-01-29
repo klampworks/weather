@@ -71,17 +71,29 @@ std::vector<weather_day> parse_days(std::stringstream &&ss)
 	return std::move(ret);
 }
 
-int main()
+std::vector<weather_day> parse_file(const char *filename)
 {
 	std::ifstream ifs;
-	ifs.open("input");
+	ifs.open(filename);
 	std::string tmp;
 
 	std::stringstream ss;
 	while(std::getline(ifs, tmp)) 
 		ss << tmp;
 
-	auto res = parse_days(std::move(ss));
+	return parse_days(std::move(ss));
+}
+
+std::vector<weather_day> parse_string(const std::string &input)
+{
+	std::stringstream ss;
+	ss << input;
+	return parse_days(std::move(ss));
+}
+
+int main()
+{
+	auto res = parse_file("input");
 
 	for (const auto &r: res) {
 		std::cout <<
