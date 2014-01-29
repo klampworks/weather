@@ -5,6 +5,8 @@
 #include <string>
 #include <fstream>
  
+#include "weather_day.hpp"
+
 using namespace boost;
 using namespace property_tree;;
 
@@ -30,20 +32,24 @@ std::string get_value(const ptree::value_type &v)
 	return std::string(v.second.begin()->second.begin()->second.data()); 
 }
 
-void parse_weather_day(const ptree &pt)
+weather_day parse_weather_day(const ptree &pt)
 {
+	weather_day ret;
 	for (const auto &v: pt) {
 
 		if (v.first.data() == std::string("tempMaxC")
 			|| v.first.data() == std::string("temp_C")) {
 
-			std::cout << v.second.data() << std::endl;
+			ret.temp = v.second.data();
 		} else if (v.first.data() == std::string("weatherDesc")) {
-			std::cout << get_value(v) << std::endl;
+			ret.desc =  get_value(v);
 		} else if (v.first.data() == std::string("weatherIconUrl")) {
-			std::cout << get_value(v) << std::endl;
+			ret.url =  get_value(v);
+			break;
 		}
 	}
+
+	return ret;
 }
 
 int main()
