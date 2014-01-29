@@ -12,9 +12,8 @@ using namespace property_tree;;
 
 /* Debug function for recursivly printing out a node and its
  * children. */
-void print(const boost::property_tree::ptree &pt)
+void print(const ptree &pt)
 {
-    using boost::property_tree::ptree;
     ptree::const_iterator end = pt.end();
     for (ptree::const_iterator it = pt.begin(); it != end; ++it) {
         std::cout << it->first << ": " << 
