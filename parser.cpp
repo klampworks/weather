@@ -10,6 +10,8 @@
 using namespace boost;
 using namespace property_tree;;
 
+namespace parser {
+
 /* Debug function for recursivly printing out a node and its
  * children. */
 void print(const ptree &pt)
@@ -90,17 +92,4 @@ std::vector<weather_day> parse_string(const std::string &input)
 	return parse_days(std::move(ss));
 }
 
-int main()
-{
-	auto res = parse_file("input");
-
-	for (const auto &r: res) {
-		std::cout <<
-			"\ntemp = " << r.temp <<
-			"\ndesc = " << r.desc <<
-			"\nurl  = " << r.url  <<
-			std::endl;
-	}
-
-	return EXIT_SUCCESS;
-}
+} /* namespace */
