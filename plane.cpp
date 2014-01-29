@@ -2,9 +2,10 @@
 #include <iostream>
 #include <QFile>
 #include <QDate>
+#include <QLabel>
 
-//#include "weather_day.hpp"
-//#include "parser.hpp"
+#include "weather_day.hpp"
+#include "parser.hpp"
 #include <vector>
 #include <QVBoxLayout>
 #include <sstream>
@@ -88,47 +89,40 @@ qp->drawRoundedRect(0,0, this->width(), this->height(), this->corner, this->corn
 
 void plane::get_data() {
 
-#if 0
-        std::vector<Weather_day> items;
-        //std::string filename("json_body_backup");
-	std::string filename = curly->grab_to_file("http://api.worldweatheronline.com/free/v1/weather.ashx?q=DH1+3LE+&format=json&num_of_days=5&key=scrubbed");
+        std::vector<weather_day> items;
+        const char *filename = "input";
+	//std::string filename = curly->grab_to_file("http://api.worldweatheronline.com/free/v1/weather.ashx?q=DH1+3LE+&format=json&num_of_days=5&key=scrubbed");
 
-        Parser p;
-
-        items = p.parse_file(filename);
+        items = parser::parse_file(filename);
 
 	QVBoxLayout *vbox = new QVBoxLayout(this);
 	//std::vector<QLabel*> labels;
 
-        for (int i = 1; i < items.size() ; i++) {
+        for (unsigned i = 1; i < items.size() ; i++) {
 
 		QDate t;
 
 		if (i == 0) {
 			t = QDate::currentDate();
 		} else {
-			t = get_qdate(items[i].get_date());
+			t = get_qdate(items[i].date);
 		}
 		
-		QLabel *tmp_icon = new QLabel;
-		tmp_icon->setPixmap(*get_icon(items[i].get_url()));
+		//QLabel *tmp_icon = new QLabel;
+		//tmp_icon->setPixmap(*get_icon(items[i].url));
 		QLabel *tmp_date = new QLabel(get_day(t));
-		QLabel *tmp_temp = new QLabel(get_temp(items[i].get_temp()));
-		QLabel *tmp_desc = new QLabel(QString::fromStdString(items[i].get_desc()));
-		QLabel *tmp_label = new QLabel(QString::fromStdString(items[i].get_date()));
+		QLabel *tmp_temp = new QLabel(get_temp(items[i].temp));
+		QLabel *tmp_desc = new QLabel(QString::fromStdString(items[i].desc));
 		QHBoxLayout *hbox = new QHBoxLayout();
 
 		hbox->addWidget(tmp_date);
-		hbox->addWidget(tmp_icon);
+		//hbox->addWidget(tmp_icon);
 		hbox->addWidget(tmp_temp);
 		hbox->addWidget(tmp_desc, Qt::AlignLeft);
 		vbox->addLayout(hbox);
-		
-
         }
 
 	setLayout(vbox);
-#endif
 }
 
 QPixmap * plane::get_icon(std::string url) {
@@ -160,7 +154,7 @@ void plane::grab_icon(std::string url) {
 
 
 QDate plane::get_qdate(std::string date) {
-#if 0
+
         std::stringstream ss(date);
 	std::vector<int> parts;
         std::string tmp;
@@ -180,11 +174,10 @@ QDate plane::get_qdate(std::string date) {
 
  
 	return QDate(parts[0], parts[1], parts[2]);
-#endif
 }
 
 QString plane::get_day(QDate date) {
-#if 0
+
 	int day = date.dayOfWeek();
 
 	switch(day) {
@@ -226,11 +219,9 @@ QString plane::get_day(QDate date) {
 
 
 	}
-#endif
 }
 
 QString plane::get_temp(std::string temp) {
-#if 0
 	if (temp.length() == 1) {
 
 		temp = " " + temp;
@@ -238,6 +229,5 @@ QString plane::get_temp(std::string temp) {
 	}
 
 	return QString::fromStdString(temp) + QString(QChar(0xb0));
-	#endif
 }
 
