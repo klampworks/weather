@@ -20,10 +20,12 @@ void print(boost::property_tree::ptree const& pt)
     }
 }
 
-/* Stupid JSON formatting? */
+/* For nodes embedded inside single element arrays.
+ * I'm no JSON expert so I assume they have a good reason
+ * for doing this. */
 std::string get_value(const ptree::value_type &v)
 {
-	return std::string(v.second.get_child(".value").begin()->first.data()); 
+	return std::string(v.second.begin()->second.begin()->second.data()); 
 }
 
 void parse_weather_day(const ptree &pt)
@@ -35,27 +37,11 @@ void parse_weather_day(const ptree &pt)
 
 			std::cout << v.second.data() << std::endl;
 		} else if (v.first.data() == std::string("weatherDesc")) {
-			print(v.second);
-			std::cout << v.first.data() << std::endl;;
-			std::cout <<
-				v.second.begin()->second.begin()->second.data()
-			<< std::endl;
-
-			for (const auto &a: v.second) {
-			
-			std::cout <<
-			//v.second.get_child(".value").begin()->second.data() 
-		//	v.second.begin()->first.data()
-			a.first.data()
-			<< std::endl;
-
-			}
-			//std::cout << v.second.begin()->second.data() << std::endl;
+			std::cout << get_value(v) << std::endl;
 		} else if (v.first.data() == std::string("weatherIconUrl")) {
-			//std::cout << get_value(v) << std::endl;
+			std::cout << get_value(v) << std::endl;
 		}
 	}
-
 }
 
 int main()
