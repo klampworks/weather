@@ -98,21 +98,20 @@ void plane::get_data() {
 	QVBoxLayout *vbox = new QVBoxLayout(this);
 	//std::vector<QLabel*> labels;
 
-        for (unsigned i = 1; i < items.size() ; i++) {
+        for (const auto &item: items) {
 
 		QDate t;
 
-		if (i == 0) {
+		if (item.date.empty())
 			t = QDate::currentDate();
-		} else {
-			t = get_qdate(items[i].date);
-		}
+		else
+			t = get_qdate(item.date);
 		
 		//QLabel *tmp_icon = new QLabel;
 		//tmp_icon->setPixmap(*get_icon(items[i].url));
 		QLabel *tmp_date = new QLabel(get_day(t));
-		QLabel *tmp_temp = new QLabel(get_temp(items[i].temp));
-		QLabel *tmp_desc = new QLabel(QString::fromStdString(items[i].desc));
+		QLabel *tmp_temp = new QLabel(get_temp(item.temp));
+		QLabel *tmp_desc = new QLabel(QString::fromStdString(item.desc));
 		QHBoxLayout *hbox = new QHBoxLayout();
 
 		hbox->addWidget(tmp_date);
