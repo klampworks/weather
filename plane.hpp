@@ -23,6 +23,7 @@ class plane : public QWidget {
 	QDate get_qdate(std::string date);
 	QString get_day(QDate date);
 	QString get_temp(std::string temp);
+	void resize(const std::string&);
 
 	int corner;
 	QColor colour;
