@@ -230,7 +230,7 @@ QString plane::get_temp(std::string temp) {
 	return QString::fromStdString(temp) + QString(QChar(0xb0));
 }
 
-void plane::resize(const std::string filename) {
+void plane::resize(const std::string &filename) {
 
 	QImage px(QString::fromStdString(filename));
 	QImage px_s = px.scaledToWidth(16, Qt::SmoothTransformation);
