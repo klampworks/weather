@@ -16,7 +16,7 @@
 class plane : public QWidget { 
 
 	public:
-	plane(QWidget *parent = NULL);
+	plane(std::string, QWidget *parent = NULL);
 	void paintEvent(QPaintEvent *e);
 	void drawLines(QPainter *qp);
 	void get_data();

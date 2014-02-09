@@ -13,13 +13,14 @@
 #include "plane.hpp"
 #include <QApplication>
 
-plane::plane(QWidget *parent) : QWidget(parent) {
+plane::plane(std::string key_p, QWidget *parent) : QWidget(parent) {
 
 	// we probably wont need these...
 //	curly = new Curly();
 //	resizer = NULL;
 	//
 	
+	key = key_p;
 	setAttribute(Qt::WA_TranslucentBackground);
 	//setAttribute(Qt::NoSystemBackground);
 	setWindowFlags(Qt::FramelessWindowHint);
@@ -95,7 +96,6 @@ void plane::get_data() {
 		"http://api.worldweatheronline.com/free/v1/weather.ashx"
 		"?q=DH1+3LE+&format=json&num_of_days=5&key=" + key);
 
-	if(filename.empty()) exit(1);
         items = parser::parse_file(filename.c_str());
 
 	QVBoxLayout *vbox = new QVBoxLayout(this);
