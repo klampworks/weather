@@ -90,10 +90,13 @@ qp->drawRoundedRect(0,0, this->width(), this->height(), this->corner, this->corn
 void plane::get_data() {
 
         std::vector<weather_day> items;
-        const char *filename = "input";
-	//std::string filename = curly->grab_to_file("http://api.worldweatheronline.com/free/v1/weather.ashx?q=DH1+3LE+&format=json&num_of_days=5&key=scrubbed");
+//        const char *filename = "input";
+	std::string filename = grab.grab_to_file(
+		"http://api.worldweatheronline.com/free/v1/weather.ashx"
+		"?q=DH1+3LE+&format=json&num_of_days=5&key=scrubbed");
 
-        items = parser::parse_file(filename);
+	if(filename.empty()) exit(1);
+        items = parser::parse_file(filename.c_str());
 
 	QVBoxLayout *vbox = new QVBoxLayout(this);
 	//std::vector<QLabel*> labels;
