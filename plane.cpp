@@ -91,7 +91,6 @@ qp->drawRoundedRect(0,0, this->width(), this->height(), this->corner, this->corn
 void plane::get_data() {
 
         std::vector<weather_day> items;
-//        const char *filename = "input";
 	std::string filename = grab.grab_to_file(
 		"http://api.worldweatheronline.com/free/v1/weather.ashx"
 		"?q=DH1+3LE+&format=json&num_of_days=5&key=" + key);
@@ -110,8 +109,8 @@ void plane::get_data() {
 		else
 			t = get_qdate(item.date);
 		
-		//QLabel *tmp_icon = new QLabel;
-		//tmp_icon->setPixmap(*get_icon(items[i].url));
+		QLabel *tmp_icon = new QLabel;
+		tmp_icon->setPixmap(*get_icon(item.url));
 		QLabel *tmp_date = new QLabel(get_day(t));
 		QLabel *tmp_temp = new QLabel(get_temp(item.temp));
 		QLabel *tmp_desc = new QLabel(QString::fromStdString(item.desc));
@@ -128,7 +127,6 @@ void plane::get_data() {
 }
 
 QPixmap * plane::get_icon(std::string url) {
-#if 0
 	unsigned int pos = url.find_last_of('/');
 	std::string path = url.substr(pos+1);
 
@@ -138,20 +136,15 @@ QPixmap * plane::get_icon(std::string url) {
 		grab_icon(url);
 	
 	return new QPixmap(QString::fromStdString(path));
-#endif
 }
 
 void plane::grab_icon(std::string url) {
-#if 0
-	if (resizer == NULL) 
-		resizer = new Resize();
-	
-	if (curly == NULL)
-		curly = new Curly();
 
-	std::string filename = curly->grab_to_file(url);
-	resizer->resize(filename);
-#endif
+	//if (resizer == NULL) 
+	//	resizer = new Resize();
+	
+	std::string filename = grab.grab_to_file(url);
+	//resizer->resize(filename);
 }
 
 
