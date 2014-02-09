@@ -34,6 +34,7 @@ std::string grabber::grab(const std::string &url, bool tostring)
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data_string);
 	} else {
 		//file
+		mi = "output";
 		my_file = fopen(mi.c_str(), "wb+");
 
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, my_file);
