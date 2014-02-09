@@ -105,7 +105,8 @@ void plane::get_data() {
 		QDate t;
 
 		if (item.date.empty())
-			t = QDate::currentDate();
+		//	t = QDate::currentDate();
+			continue;
 		else
 			t = get_qdate(item.date);
 		
@@ -116,8 +117,10 @@ void plane::get_data() {
 		QLabel *tmp_desc = new QLabel(QString::fromStdString(item.desc));
 		QHBoxLayout *hbox = new QHBoxLayout();
 
+		QFont font("Monospace");
+		tmp_date->setFont(font);
 		hbox->addWidget(tmp_date);
-		//hbox->addWidget(tmp_icon);
+		hbox->addWidget(tmp_icon);
 		hbox->addWidget(tmp_temp);
 		hbox->addWidget(tmp_desc, Qt::AlignLeft);
 		vbox->addLayout(hbox);
@@ -140,11 +143,12 @@ QPixmap * plane::get_icon(std::string url) {
 
 void plane::grab_icon(std::string url) {
 
-	//if (resizer == NULL) 
-	//	resizer = new Resize();
-	
 	std::string filename = grab.grab_to_file(url);
-	//resizer->resize(filename);
+
+	QImage px(QString::fromStdString(filename));
+
+	QImage px_s = px.scaledToWidth(16, Qt::SmoothTransformation);
+	px_s.save(QString::fromStdString(filename));
 }
 
 
@@ -178,37 +182,37 @@ QString plane::get_day(QDate date) {
 	switch(day) {
 	
 	case 1:
-		return QString(QChar(0x6708));
+		//return QString(QChar(0x6708));
 		return QString("mon");
 		break;
 
 	case 2://6728
-		return QString(QChar(0x706b));
+		//return QString(QChar(0x706b));
 		return QString("tue");
 		break;
 
 	case 3:
-		return QString(QChar(0x6c34));
+		//return QString(QChar(0x6c34));
 		return QString("wed");
 		break;
 
 	case 4:
-		return QString(QChar(0x6728));
+		//return QString(QChar(0x6728));
 		return QString("thu");
 		break;
 
 	case 5:
-		return QString(QChar(0x91d1));
+		//return QString(QChar(0x91d1));
 		return QString("fri");
 		break;
 
 	case 6:
-		return QString(QChar(0x571f));
+		//return QString(QChar(0x571f));
 		return QString("sat");
 		break;
 
 	case 7:
-		return QString(QChar(0x65e5));
+		//return QString(QChar(0x65e5));
 		return QString("sun");
 		break;
 
