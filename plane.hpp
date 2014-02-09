@@ -11,6 +11,8 @@
 #include <sstream>
 #include <QDesktopWidget>
 
+#include "grabber.hpp"
+
 class plane : public QWidget { 
 
 	public:
@@ -27,5 +29,7 @@ class plane : public QWidget {
 
 	int corner;
 	QColor colour;
+	grabber grab;
+	std::string key;
 };
 #endif
