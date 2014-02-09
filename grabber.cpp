@@ -34,7 +34,13 @@ std::string grabber::grab(const std::string &url, bool tostring)
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data_string);
 	} else {
 		//file
-		mi = "output";
+		unsigned int offset = url.find_last_of('/') + 1;
+
+		if (offset < url.size())
+			mi = url.substr(offset);
+		else
+			mi = "dsklhf";
+
 		my_file = fopen(mi.c_str(), "wb+");
 
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, my_file);
