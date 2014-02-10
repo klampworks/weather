@@ -94,7 +94,7 @@ void plane::get_data() {
         std::vector<weather_day> items;
 	std::string filename = grab.grab_to_file(
 		"http://api.worldweatheronline.com/free/v1/weather.ashx"
-		"?q=DH1+3LE+&format=json&num_of_days=5&key=" + key);
+		"?q=" + postcode + "&format=json&num_of_days=5&key=" + key);
 
         items = parser::parse_file(filename.c_str());
 
