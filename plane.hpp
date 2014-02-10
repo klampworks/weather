@@ -31,5 +31,6 @@ class plane : public QWidget {
 	QColor colour;
 	grabber grab;
 	std::string key;
+	std::string postcode;
 };
 #endif
