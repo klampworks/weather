@@ -13,7 +13,7 @@
 #include "plane.hpp"
 #include <QApplication>
 
-plane::plane(std::string key_p, QWidget *parent) : QWidget(parent) {
+plane::plane(std::string key_p, std::string postcode_p, QWidget *parent) : QWidget(parent) {
 
 	// we probably wont need these...
 //	curly = new Curly();
@@ -21,6 +21,7 @@ plane::plane(std::string key_p, QWidget *parent) : QWidget(parent) {
 	//
 	
 	key = key_p;
+	postcode = postcode_p;
 	setAttribute(Qt::WA_TranslucentBackground);
 	//setAttribute(Qt::NoSystemBackground);
 	setWindowFlags(Qt::FramelessWindowHint);
