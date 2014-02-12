@@ -13,8 +13,10 @@
 #include "plane.hpp"
 #include <QApplication>
 
-plane::plane(std::string key_p, std::string postcode_p, QWidget *parent) : QWidget(parent) {
-
+plane::plane(std::string key_p, std::string postcode_p, 
+	QWidget *parent) 
+	: QWidget(parent) 
+{
 	key = key_p;
 	postcode = postcode_p;
 	setAttribute(Qt::WA_TranslucentBackground);
@@ -26,8 +28,8 @@ plane::plane(std::string key_p, std::string postcode_p, QWidget *parent) : QWidg
 	get_data();
 }
 
-void plane::paintEvent(QPaintEvent *e) {
-
+void plane::paintEvent(QPaintEvent *e) 
+{
 	Q_UNUSED(e);
 	QPainter qp(this);
 	drawLines(&qp);
@@ -37,8 +39,8 @@ void plane::paintEvent(QPaintEvent *e) {
 	
 }
 
-void plane::drawLines(QPainter *qp) {
-
+void plane::drawLines(QPainter *qp) 
+{
 	qp->setOpacity(1.0);
 	QPen pen(Qt::NoPen);
 	qp->setPen(pen);
@@ -48,8 +50,8 @@ void plane::drawLines(QPainter *qp) {
       	brush.setColor(this->colour);
 	qp->setBrush(brush);
 
-qp->drawRoundedRect(0,0, this->width(), this->height(), this->corner, this->corner);
-
+	qp->drawRoundedRect(0,0, this->width(), this->height(), 
+		this->corner, this->corner);
 
 }
 
