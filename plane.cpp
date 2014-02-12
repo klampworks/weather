@@ -15,33 +15,15 @@
 
 plane::plane(std::string key_p, std::string postcode_p, QWidget *parent) : QWidget(parent) {
 
-	// we probably wont need these...
-//	curly = new Curly();
-//	resizer = NULL;
-	//
-	
 	key = key_p;
 	postcode = postcode_p;
 	setAttribute(Qt::WA_TranslucentBackground);
-	//setAttribute(Qt::NoSystemBackground);
 	setWindowFlags(Qt::FramelessWindowHint);
-	//setWindowFlags(Qt::WindowStaysOnBottomHint);
-	//setWindowFlags(Qt::X11BypassWindowManagerHint);
 	setAttribute(Qt::WA_X11DoNotAcceptFocus);
 	
 	this->corner = 15;
-
 	this->colour = QColor(11, 11, 44, 127);
-
-	//QLabel *mi = new QLabel(this) ;
-	//mi->setGeometry(0,0,100,100);
-	//QPixmap pix(QString::fromStdString("test.png"));
-	//mi->setPixmap(pix);
-
 	get_data();
-
-//mi->show();
- 
 }
 
 void plane::paintEvent(QPaintEvent *e) {
@@ -58,31 +40,13 @@ void plane::paintEvent(QPaintEvent *e) {
 void plane::drawLines(QPainter *qp) {
 
 	qp->setOpacity(1.0);
-	//QPen pen(Qt::red, 10, Qt::SolidLine);
 	QPen pen(Qt::NoPen);
 	qp->setPen(pen);
 
  	QBrush brush;
-	brush.setStyle(Qt::SolidPattern); // Fix your problem !
+	brush.setStyle(Qt::SolidPattern);
       	brush.setColor(this->colour);
 	qp->setBrush(brush);
-/*
-
-	QPainterPath p;
-	p.lineTo( width-corner, 0);
-	p.arcTo(width-(corner*2), 0, corner*2, corner*2, 0, corner*16*3);
-	p.lineTo(width, height-corner);
-	p.arcTo(width-(corner*2), height-(corner*2),  corner*2, corner*2, 0, -corner*16*3);
-	p.lineTo(0+corner, height);
-	p.arcTo(0, height-(corner*2),  corner*2, corner*2, 270*16, -corner*16*3);
-	p.lineTo(0, 0+corner);
-	p.arcTo(0, 0,  corner*2, corner*2, 90*16, corner*16*3);
-	p.closeSubpath();
-
-	RenderArea ra(p);
-	r.setFilleRule(
-
-*/
 
 qp->drawRoundedRect(0,0, this->width(), this->height(), this->corner, this->corner);
 
@@ -99,14 +63,12 @@ void plane::get_data() {
         items = parser::parse_file(filename.c_str());
 
 	QVBoxLayout *vbox = new QVBoxLayout(this);
-	//std::vector<QLabel*> labels;
 
         for (const auto &item: items) {
 
 		QDate t;
 
 		if (item.date.empty())
-		//	t = QDate::currentDate();
 			continue;
 		else
 			t = get_qdate(item.date);
