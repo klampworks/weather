@@ -13,6 +13,7 @@
 
 #include "grabber.hpp"
 
+class QTimer;
 class plane : public QWidget { 
 
 	public:
@@ -26,6 +27,7 @@ class plane : public QWidget {
 	QString get_day(QDate date);
 	QString get_temp(std::string temp);
 	void resize(const std::string&);
+	QTimer *tmr;
 
 	int corner;
 	QColor colour;
