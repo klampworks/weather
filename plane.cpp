@@ -28,14 +28,17 @@ plane::plane(std::string key_p, std::string postcode_p,
 	days = 5;
 
 	url = 	"http://api.worldweatheronline.com/free/v1/weather.ashx"
-		"?q=" + postcode + "&format=json&num_of_days=" + std::to_string(days) + "&key=" + key;
-
-	vbox = new QVBoxLayout(this);
+		"?q=" + postcode + "&format=json&num_of_days=" + 
+		std::to_string(days) + "&key=" + key;
 
 
 	/* Important to keep days inline (mon, tue, wed etc.) */
 	QFont font("Monospace");
 
+	/* Base layout for the widget, each row will be a vertical layout. */
+	vbox = new QVBoxLayout(this);
+
+	/* Populate the Rows with default contructed items. */
 	for (unsigned i = 0; i < days; i++) {
 
 		tmp_icon.push_back(new QLabel);
@@ -43,7 +46,7 @@ plane::plane(std::string key_p, std::string postcode_p,
 		tmp_temp.push_back(new QLabel);
 		tmp_desc.push_back(new QLabel);
 
-		/* We want this to be fixed width. */
+		/* We want this text to be fixed width. */
 		tmp_date[i]->setFont(font);
 
 		hbox.push_back(new QHBoxLayout);
@@ -56,15 +59,18 @@ plane::plane(std::string key_p, std::string postcode_p,
 
 	setLayout(vbox);
 
+	/* Widget corner radius and backgound colour. */
 	this->corner = 15;
 	this->colour = QColor(11, 11, 44, 127);
 
-	get_data();
-
+	/* Timer for fetching updates. */
 	tmr = new QTimer;
 	connect(tmr, SIGNAL(timeout()), this, SLOT(get_data()));
 	tmr_interval = 3*60*60*1000;
 	tmr->start(tmr_interval);
+
+	/* Do an update now. */
+	get_data();
 }
 
 void plane::paintEvent(QPaintEvent *e) 
@@ -75,7 +81,6 @@ void plane::paintEvent(QPaintEvent *e)
 	QDesktopWidget *desktop = QApplication::desktop();
 	int width = desktop->width();
 	move((width - this->width())-1, 410);
-	
 }
 
 void plane::drawLines(QPainter *qp) 
@@ -106,9 +111,7 @@ void plane::get_data() {
 	assert(days + 1== items.size());
         for (unsigned i = 0; i < days; i++) {
 
-		QDate t;
-
-		t = get_qdate(items[i+1].date);
+		QDate t = get_qdate(items[i+1].date);
 		
 		tmp_icon[i]->setPixmap(*get_icon(items[i+1].url));
 		tmp_date[i]->setText(get_day(t));
@@ -148,8 +151,6 @@ QDate plane::get_qdate(std::string date) {
 	std::istringstream iss;
 
 	while(std::getline(ss, tmp, '-')) {
-
-		std::cout << "tmp = " << tmp << std::endl;
 
 		iss.str(tmp);
 		int tmp_int=0;
