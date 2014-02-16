@@ -121,10 +121,7 @@ std::cout << "sldfl;" << std::endl;
 
 		QDate t;
 
-		if (items[i+1].date.empty())
-			continue;
-		else
-			t = get_qdate(items[i+1].date);
+		t = get_qdate(items[i+1].date);
 		
 		tmp_icon[i]->setPixmap(*get_icon(items[i+1].url));
 		tmp_date[i]->setText(get_day(t));
