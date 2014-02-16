@@ -59,7 +59,8 @@ plane::plane(std::string key_p, std::string postcode_p,
 
 	tmr = new QTimer;
 	connect(tmr, SIGNAL(timeout()), this, SLOT(get_data()));
-	tmr->start(1000);
+	tmr_interval = 3*60*60*1000;
+	tmr->start(tmr_interval);
 }
 
 void plane::paintEvent(QPaintEvent *e) 
@@ -91,7 +92,6 @@ void plane::drawLines(QPainter *qp)
 
 void plane::get_data() {
 
-std::cout << "sldfl;" << std::endl;
         std::vector<weather_day> items;
 	std::string filename = grab.grab_to_file(
 		"http://api.worldweatheronline.com/free/v1/weather.ashx"

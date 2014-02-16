@@ -37,6 +37,7 @@ class plane : public QWidget {
 	std::string postcode;
 
 	int days;
+	unsigned tmr_interval;
 
 	QVBoxLayout *vbox;
 	std::vector<QHBoxLayout*> hbox;
