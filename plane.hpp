@@ -20,7 +20,6 @@ class plane : public QWidget {
 	plane(std::string, std::string, QWidget *parent = NULL);
 	void paintEvent(QPaintEvent *e);
 	void drawLines(QPainter *qp);
-	void get_data();
 	QPixmap * get_icon(std::string url);
 	void grab_icon(std::string url);
 	QDate get_qdate(std::string date);
@@ -34,5 +33,8 @@ class plane : public QWidget {
 	grabber grab;
 	std::string key;
 	std::string postcode;
+
+	protected slots:
+		void get_data();
 };
 #endif
