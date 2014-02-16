@@ -16,6 +16,7 @@
 class QTimer;
 class plane : public QWidget { 
 
+	Q_OBJECT
 	public:
 	plane(std::string, std::string, QWidget *parent = NULL);
 	void paintEvent(QPaintEvent *e);
