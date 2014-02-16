@@ -12,6 +12,7 @@
 #include <QDesktopWidget>
 #include "plane.hpp"
 #include <QApplication>
+#include <QTimer>
 
 plane::plane(std::string key_p, std::string postcode_p, 
 	QWidget *parent) 
@@ -26,6 +27,9 @@ plane::plane(std::string key_p, std::string postcode_p,
 	this->corner = 15;
 	this->colour = QColor(11, 11, 44, 127);
 	get_data();
+
+	tmr = new QTimer;
+	connect(tmr, SIGNAL(timeout()), this, SLOT(get_data()));
 }
 
 void plane::paintEvent(QPaintEvent *e) 
