@@ -26,7 +26,6 @@ plane::plane(std::string key_p, std::string postcode_p,
 	setAttribute(Qt::WA_X11DoNotAcceptFocus);
 	
 	vbox = new QVBoxLayout(this);
-	//hbox = new QHBoxLayout();
 
 	days = 5;
 
@@ -50,20 +49,6 @@ plane::plane(std::string key_p, std::string postcode_p,
 		hbox[i]->addWidget(tmp_desc[i], Qt::AlignLeft);
 		vbox->addLayout(hbox[i]);
 	}
-
-		/*
-	tmp_icon = new QLabel;
-	tmp_date = new QLabel;
-	tmp_temp = new QLabel;
-	tmp_desc = new QLabel;
-
-	QFont font("Monospace");
-	tmp_date->setFont(font);
-	hbox->addWidget(tmp_date);
-	hbox->addWidget(tmp_icon);
-	hbox->addWidget(tmp_temp);
-	hbox->addWidget(tmp_desc, Qt::AlignLeft);
-	*/
 
 	setLayout(vbox);
 
@@ -110,7 +95,7 @@ std::cout << "sldfl;" << std::endl;
         std::vector<weather_day> items;
 	std::string filename = grab.grab_to_file(
 		"http://api.worldweatheronline.com/free/v1/weather.ashx"
-		"?q=" + postcode + "&format=json&num_of_days=5&key=" + key);
+		"?q=" + postcode + "&format=json&num_of_days=" + std::to_string(days) + "&key=" + key);
 
         items = parser::parse_file(filename.c_str());
 
@@ -127,11 +112,7 @@ std::cout << "sldfl;" << std::endl;
 		tmp_date[i]->setText(get_day(t));
 		tmp_temp[i]->setText(get_temp(items[i+1].temp));
 		tmp_desc[i]->setText(QString::fromStdString(items[i+1].desc));
-
-		//vbox->addLayout(hbox);
         }
-
-	//setLayout(vbox);
 }
 
 QPixmap * plane::get_icon(std::string url) {
