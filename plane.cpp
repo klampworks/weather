@@ -25,14 +25,18 @@ plane::plane(std::string key_p, std::string postcode_p,
 	setWindowFlags(Qt::FramelessWindowHint);
 	setAttribute(Qt::WA_X11DoNotAcceptFocus);
 	
+	days = 5;
+
+	url = 	"http://api.worldweatheronline.com/free/v1/weather.ashx"
+		"?q=" + postcode + "&format=json&num_of_days=" + std::to_string(days) + "&key=" + key;
+
 	vbox = new QVBoxLayout(this);
 
-	days = 5;
 
 	/* Important to keep days inline (mon, tue, wed etc.) */
 	QFont font("Monospace");
 
-	for (int i = 0; i < days; i++) {
+	for (unsigned i = 0; i < days; i++) {
 
 		tmp_icon.push_back(new QLabel);
 		tmp_date.push_back(new QLabel);
@@ -93,16 +97,14 @@ void plane::drawLines(QPainter *qp)
 void plane::get_data() {
 
         std::vector<weather_day> items;
-	std::string filename = grab.grab_to_file(
-		"http://api.worldweatheronline.com/free/v1/weather.ashx"
-		"?q=" + postcode + "&format=json&num_of_days=" + std::to_string(days) + "&key=" + key);
+	std::string filename = grab.grab_to_file(url);
 
         items = parser::parse_file(filename.c_str());
 
 
 	/* +1 because we are skipping one. The current day is listed twice. */
 	assert(days + 1== items.size());
-        for (int i = 0; i < days; i++) {
+        for (unsigned i = 0; i < days; i++) {
 
 		QDate t;
 
