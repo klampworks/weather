@@ -14,6 +14,7 @@
 #include "grabber.hpp"
 
 class QTimer;
+#include <QLabel>
 class plane : public QWidget { 
 
 	Q_OBJECT
@@ -35,6 +36,14 @@ class plane : public QWidget {
 	std::string key;
 	std::string postcode;
 
+	int days;
+
+	QVBoxLayout *vbox;
+	std::vector<QHBoxLayout*> hbox;
+	std::vector<QLabel*> tmp_icon;
+	std::vector<QLabel*> tmp_date;
+	std::vector<QLabel*> tmp_temp;
+	std::vector<QLabel*> tmp_desc;
 	protected slots:
 		void get_data();
 };

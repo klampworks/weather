@@ -13,6 +13,7 @@
 #include "plane.hpp"
 #include <QApplication>
 #include <QTimer>
+#include <cassert>
 
 plane::plane(std::string key_p, std::string postcode_p, 
 	QWidget *parent) 
@@ -24,12 +25,56 @@ plane::plane(std::string key_p, std::string postcode_p,
 	setWindowFlags(Qt::FramelessWindowHint);
 	setAttribute(Qt::WA_X11DoNotAcceptFocus);
 	
+	vbox = new QVBoxLayout(this);
+	//hbox = new QHBoxLayout();
+
+	days = 5;
+
+	/* Important to keep days inline (mon, tue, wed etc.) */
+	QFont font("Monospace");
+
+	for (int i = 0; i < days; i++) {
+
+		tmp_icon.push_back(new QLabel);
+		tmp_date.push_back(new QLabel);
+		tmp_temp.push_back(new QLabel);
+		tmp_desc.push_back(new QLabel);
+
+		/* We want this to be fixed width. */
+		tmp_date[i]->setFont(font);
+
+		hbox.push_back(new QHBoxLayout);
+		hbox[i]->addWidget(tmp_date[i]);
+		hbox[i]->addWidget(tmp_icon[i]);
+		hbox[i]->addWidget(tmp_temp[i]);
+		hbox[i]->addWidget(tmp_desc[i], Qt::AlignLeft);
+		vbox->addLayout(hbox[i]);
+	}
+
+		/*
+	tmp_icon = new QLabel;
+	tmp_date = new QLabel;
+	tmp_temp = new QLabel;
+	tmp_desc = new QLabel;
+
+	QFont font("Monospace");
+	tmp_date->setFont(font);
+	hbox->addWidget(tmp_date);
+	hbox->addWidget(tmp_icon);
+	hbox->addWidget(tmp_temp);
+	hbox->addWidget(tmp_desc, Qt::AlignLeft);
+	*/
+
+	setLayout(vbox);
+
 	this->corner = 15;
 	this->colour = QColor(11, 11, 44, 127);
+
 	get_data();
 
 	tmr = new QTimer;
 	connect(tmr, SIGNAL(timeout()), this, SLOT(get_data()));
+	tmr->start(1000);
 }
 
 void plane::paintEvent(QPaintEvent *e) 
@@ -61,6 +106,7 @@ void plane::drawLines(QPainter *qp)
 
 void plane::get_data() {
 
+std::cout << "sldfl;" << std::endl;
         std::vector<weather_day> items;
 	std::string filename = grab.grab_to_file(
 		"http://api.worldweatheronline.com/free/v1/weather.ashx"
@@ -68,34 +114,27 @@ void plane::get_data() {
 
         items = parser::parse_file(filename.c_str());
 
-	QVBoxLayout *vbox = new QVBoxLayout(this);
 
-        for (const auto &item: items) {
+	/* +1 because we are skipping one. The current day is listed twice. */
+	assert(days + 1== items.size());
+        for (int i = 0; i < days; i++) {
 
 		QDate t;
 
-		if (item.date.empty())
+		if (items[i+1].date.empty())
 			continue;
 		else
-			t = get_qdate(item.date);
+			t = get_qdate(items[i+1].date);
 		
-		QLabel *tmp_icon = new QLabel;
-		tmp_icon->setPixmap(*get_icon(item.url));
-		QLabel *tmp_date = new QLabel(get_day(t));
-		QLabel *tmp_temp = new QLabel(get_temp(item.temp));
-		QLabel *tmp_desc = new QLabel(QString::fromStdString(item.desc));
-		QHBoxLayout *hbox = new QHBoxLayout();
+		tmp_icon[i]->setPixmap(*get_icon(items[i+1].url));
+		tmp_date[i]->setText(get_day(t));
+		tmp_temp[i]->setText(get_temp(items[i+1].temp));
+		tmp_desc[i]->setText(QString::fromStdString(items[i+1].desc));
 
-		QFont font("Monospace");
-		tmp_date->setFont(font);
-		hbox->addWidget(tmp_date);
-		hbox->addWidget(tmp_icon);
-		hbox->addWidget(tmp_temp);
-		hbox->addWidget(tmp_desc, Qt::AlignLeft);
-		vbox->addLayout(hbox);
+		//vbox->addLayout(hbox);
         }
 
-	setLayout(vbox);
+	//setLayout(vbox);
 }
 
 QPixmap * plane::get_icon(std::string url) {
