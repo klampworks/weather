@@ -58,9 +58,13 @@ weather_day parse_day(const ptree &pt)
 std::vector<weather_day> parse_days(std::stringstream &&ss)
 {
 	ptree pt;
-	read_json(ss, pt);
-
 	std::vector<weather_day> ret;
+
+	try {
+		read_json(ss, pt);
+	} catch (...) {
+		return ret;
+	}
 
 	auto a = pt.get_child("data.current_condition.");
 	auto day = parse_day(a.begin()->second);

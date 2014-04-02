@@ -108,7 +108,15 @@ void plane::get_data() {
 
 
 	/* +1 because we are skipping one. The current day is listed twice. */
-	assert(days + 1== items.size());
+	if (days + 1 != items.size()) {
+		tmp_desc[0]->setText(
+		"My deepest apologies, it would\n"
+		"seem adverse circumstances have \n"
+		"prohibited me from fulfilling\n"
+		"my duty.");
+		return;
+	}
+
         for (unsigned i = 0; i < days; i++) {
 
 		QDate t = get_qdate(items[i+1].date);
@@ -204,9 +212,8 @@ QString plane::get_day(QDate date) {
 		//return QString(QChar(0x65e5));
 		return QString("sun");
 		break;
-
-
 	}
+	return QString();
 }
 
 QString plane::get_temp(std::string temp) {
