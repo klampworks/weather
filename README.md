@@ -1,11 +1,8 @@
 weather
 =======
 
-A desktop weather view.
+A QT based desktop weather widget.
 
-comming soon
-======
+Weather information is fetched from the worldweatheronline.com REST api with curl. The JSON data is parsed with boost::property_tree and displayed in a QT gui.
 
-The full source code was unfortunantly lost before I had a chance to commit any of it. I'll keep this here as a reminder to redo this app at some point.
 
-This is a bit of a reverse engineering process, figuring out what the function calls in the recovered file probably did and reimplementing them.
